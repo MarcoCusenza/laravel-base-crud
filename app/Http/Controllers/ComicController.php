@@ -25,7 +25,7 @@ class ComicController extends Controller
    */
   public function create()
   {
-    //
+    return view("comics.create");
   }
 
   /**
@@ -49,7 +49,7 @@ class ComicController extends Controller
     $newComic->price = $data["price"];
     $newComic->save();
     // restituisco la pagina
-    return redirect()->route('products.show', $newComic->id);
+    return redirect()->route('comics.show', $newComic->id);
   }
 
   /**
