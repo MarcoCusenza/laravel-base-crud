@@ -86,7 +86,7 @@ class ComicController extends Controller
   {
     // prendo i dati del form
     $data = $request->all();
-    // inserisco una nuova riga nella tabella
+    // modifico l'oggetto passato nei parametri che corrisponde alla riga nella tabella
     $comic->title = $data["title"];
     $comic->series = $data["series"];
     $comic->type = $data["type"];
@@ -105,8 +105,10 @@ class ComicController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(Comic $comic)
   {
-    //
+    $comic->delete();
+
+    return redirect()->route("comics.index");
   }
 }
