@@ -37268,7 +37268,12 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // document.getElementById("delete-btn").addEventListener("click", confirmDelete());
+// function confirmDelete() {
+//   if (confirm("Sei sicuro di voler cancellare il Comic?\n\nPremi Conferma o Cancella.")) {
+//     document.getElementById("delete-form").submit();
+//   }
+// }
 
 /***/ }),
 

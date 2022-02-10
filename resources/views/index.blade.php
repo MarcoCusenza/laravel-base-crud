@@ -9,5 +9,4 @@
         <a href="{{ route('comics.create') }}"><button type="button" class="btn btn-success">Aggiungi nuovo
                 Comic</button></a>
     </div>
-
 @endsection

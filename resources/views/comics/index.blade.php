@@ -30,10 +30,12 @@
                             <a href="{{ route('comics.edit', $comic->id) }}"><button type="button"
                                     class="btn btn-warning">Modifica</button></a>
                             <br>
-                            <form action="{{ route('comics.destroy', $comic->id) }}" method="POST">
+                            <form id="delete-form"
+                                onsubmit="return confirm('Sei sicuro di voler cancellare il Comic?\n\nPremi Conferma o Cancella.')"
+                                action="{{ route('comics.destroy', $comic->id) }}" method="POST">
                                 @csrf
                                 @method("DELETE")
-                                <button type="submit" class="btn btn-danger">Elimina</button>
+                                <button type="submit" class="btn btn-danger" id="delete-btn">Elimina</button>
                             </form>
                         </td>
                     </tr>
@@ -45,4 +47,6 @@
                     Comic</button></a>
         </div>
     </div>
+
+    <script src="{{ asset('js/app.js') }}"></script>
 @endsection
