@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comic;
+use Illuminate\Validation\Rule;
 
 class ComicController extends Controller
 {
@@ -38,17 +39,22 @@ class ComicController extends Controller
   {
     // prendo i dati del form
     $data = $request->all();
-    // inserisco una nuova riga nella tabella
-    $newComic = new Comic();
-    $newComic->title = $data["title"];
-    $newComic->series = $data["series"];
-    $newComic->type = $data["type"];
-    $newComic->description = $data["description"];
-    $newComic->link = $data["link"];
-    $newComic->sale_date = $data["sale_date"];
-    $newComic->price = $data["price"];
-    $newComic->save();
-    // restituisco la pagina
+    // validazione
+    $request->validate([
+      "title" => "required|string|max:100|unique:comics",
+      "series" => "required|string|max:100",
+      "type" => [
+        "required",
+        Rule::in(["comic book", "graphic novel", "fanart"])
+      ],
+      "description" => "required|string",
+      "link" => "nullable|url",
+      "sale_date" => "required|date",
+      "price" => "required|numeric",
+    ]);
+    // aggiorno la risorsa con i nuovi dati
+    $newComic = Comic::create($data);
+    // restituisco la pagina show della risorsa modificata
     return redirect()->route('comics.show', $newComic->id);
   }
 
@@ -84,18 +90,24 @@ class ComicController extends Controller
    */
   public function update(Request $request, Comic $comic)
   {
-    // prendo i dati del form
+    // prendo tutti i dati del form
     $data = $request->all();
-    // modifico l'oggetto passato nei parametri che corrisponde alla riga nella tabella
-    $comic->title = $data["title"];
-    $comic->series = $data["series"];
-    $comic->type = $data["type"];
-    $comic->description = $data["description"];
-    $comic->link = $data["link"];
-    $comic->sale_date = $data["sale_date"];
-    $comic->price = $data["price"];
-    $comic->save();
-    // restituisco la pagina
+    // validazione
+    $request->validate([
+      "title" => "required|string|max:100|unique:comics,title,{$comic->id}",
+      "series" => "required|string|max:100",
+      "type" => [
+        "required",
+        Rule::in(["comic book", "graphic novel", "fanart"])
+      ],
+      "description" => "required|string",
+      "link" => "nullable|url",
+      "sale_date" => "required|date",
+      "price" => "required|numeric",
+    ]);
+    // aggiorno la risorsa con i nuovi dati
+    $comic->update($data);
+    // restituisco la pagina show della risorsa modificata
     return redirect()->route('comics.show', $comic->id);
   }
 
